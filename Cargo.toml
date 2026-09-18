@@ -1,0 +1,19 @@
+[package]
+name = "cytotrace2-fast"
+version = "1.2.0"
+edition = "2021"
+description = "cytotrace2-fast: Rust reimplementation of CytoTRACE 2 (CLI-compatible, parity-verified against the official Python implementation)"
+
+[[bin]]
+name = "cytotrace2"
+path = "src/main.rs"
+
+[dependencies]
+rayon = "1"
+flate2 = "1"
+faer = { path = "vendor/faer" }
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1

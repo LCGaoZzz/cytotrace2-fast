@@ -1,0 +1,14 @@
+# Rust build artifacts
+/target/
+
+# benchmark scratch
+runs/
+*.time_v.txt
+*.stdout.txt
+
+# Python
+__pycache__/
+*.pyc
+
+# OS / editor
+.DS_Store

@@ -1,0 +1,20 @@
+name: build-and-check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+      - name: Check formatting
+        run: cargo fmt --check
+      - name: Check build
+        run: cargo check --locked
+      - name: Check Python helpers
+        run: python3 -m py_compile bench/parity_check.py scripts/export_assets.py

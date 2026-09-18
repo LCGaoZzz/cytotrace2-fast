@@ -1,0 +1,5128 @@
+{
+ "files": {
+  "model1.npz": {
+   "sha256": "7bc2bf6a62ddb6f1e73e4a0c14cb2ae7b30c5ec2fb2fdfd835da1c8edd9535b7",
+   "bytes": 8235406,
+   "kind": "model_state_dict",
+   "source": "cytotrace2_py/resources/models/model1.pt",
+   "keys": {
+    "layers.0.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.0.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.1.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.2.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.3.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.4.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.5.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    }
+   }
+  },
+  "model10.npz": {
+   "sha256": "23a0d866651b8afbbe8bdb269a73ac6a03c9cd51f63c02548fd1538193e33c28",
+   "bytes": 8235406,
+   "kind": "model_state_dict",
+   "source": "cytotrace2_py/resources/models/model10.pt",
+   "keys": {
+    "layers.0.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.0.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.1.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.2.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.3.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.4.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.5.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    }
+   }
+  },
+  "model11.npz": {
+   "sha256": "9270649f4de127a227fe04c987e4a59d87f1fa04aceeb7911ba85d6e11c5ec00",
+   "bytes": 8235406,
+   "kind": "model_state_dict",
+   "source": "cytotrace2_py/resources/models/model11.pt",
+   "keys": {
+    "layers.0.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.0.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.1.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.2.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.3.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.4.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.5.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    }
+   }
+  },
+  "model12.npz": {
+   "sha256": "1cc69737a02ec9fd4749067d580a8be567c20ce6b372f46c9c1699b39ef78799",
+   "bytes": 8235406,
+   "kind": "model_state_dict",
+   "source": "cytotrace2_py/resources/models/model12.pt",
+   "keys": {
+    "layers.0.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.0.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.1.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.2.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.3.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.4.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.5.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    }
+   }
+  },
+  "model13.npz": {
+   "sha256": "b048543f66e9abe5cbc7e490802843beb2d3fb71e620de6938adf3f5c204aac3",
+   "bytes": 8235406,
+   "kind": "model_state_dict",
+   "source": "cytotrace2_py/resources/models/model13.pt",
+   "keys": {
+    "layers.0.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.0.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.1.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.2.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.3.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.4.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.5.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    }
+   }
+  },
+  "model14.npz": {
+   "sha256": "a0b9d40b311106ac66e5c09b0e1d8a8811163a3df39e5cd732dfae0a452b9b16",
+   "bytes": 8235406,
+   "kind": "model_state_dict",
+   "source": "cytotrace2_py/resources/models/model14.pt",
+   "keys": {
+    "layers.0.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.0.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.1.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.2.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.3.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.4.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.5.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    }
+   }
+  },
+  "model15.npz": {
+   "sha256": "d6de69f8f6bef6b43ffdb80a1537b808f79d55652dadd43c597c9c6a53c5b771",
+   "bytes": 8235406,
+   "kind": "model_state_dict",
+   "source": "cytotrace2_py/resources/models/model15.pt",
+   "keys": {
+    "layers.0.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.0.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.1.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.2.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.3.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.4.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.5.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    }
+   }
+  },
+  "model16.npz": {
+   "sha256": "292b7032fac13af3c1e0c81d327c18c5f1f96c33d59191b3d6fd49faafbe16af",
+   "bytes": 8235406,
+   "kind": "model_state_dict",
+   "source": "cytotrace2_py/resources/models/model16.pt",
+   "keys": {
+    "layers.0.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.0.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.1.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.2.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.3.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.4.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.5.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    }
+   }
+  },
+  "model17.npz": {
+   "sha256": "b33e257678d8a7f941620f48b70cde5d4249834ab8eeb6eeab31f0c566ead110",
+   "bytes": 8235406,
+   "kind": "model_state_dict",
+   "source": "cytotrace2_py/resources/models/model17.pt",
+   "keys": {
+    "layers.0.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.0.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.1.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.2.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.3.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.4.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.5.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    }
+   }
+  },
+  "model18.npz": {
+   "sha256": "29c48bf02743cad4d2e286587b5774de32d5c7563681076648cfbf9171892b29",
+   "bytes": 8235406,
+   "kind": "model_state_dict",
+   "source": "cytotrace2_py/resources/models/model18.pt",
+   "keys": {
+    "layers.0.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.0.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.1.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.2.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.3.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.4.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.5.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    }
+   }
+  },
+  "model19.npz": {
+   "sha256": "f93babbb244c37ca0d9e0c555442ec410f225c80a4a8343d2b49528bb3c1883e",
+   "bytes": 8235406,
+   "kind": "model_state_dict",
+   "source": "cytotrace2_py/resources/models/model19.pt",
+   "keys": {
+    "layers.0.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.0.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.1.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.2.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.3.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.4.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.5.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    }
+   }
+  },
+  "model2.npz": {
+   "sha256": "5503a944dfe635eb753607664913f9c4f7a977046e8810d410159b516b4a13f7",
+   "bytes": 8235406,
+   "kind": "model_state_dict",
+   "source": "cytotrace2_py/resources/models/model2.pt",
+   "keys": {
+    "layers.0.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.0.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.1.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.2.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.3.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.4.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.5.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    }
+   }
+  },
+  "model3.npz": {
+   "sha256": "fc39fb9c7696681a3e6ca3b6f35b7c4e61d5c3926d37c1a823a8f37733066514",
+   "bytes": 8235406,
+   "kind": "model_state_dict",
+   "source": "cytotrace2_py/resources/models/model3.pt",
+   "keys": {
+    "layers.0.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.0.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.1.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.2.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.3.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.4.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.5.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    }
+   }
+  },
+  "model4.npz": {
+   "sha256": "a81493d206395bc1a8deaed151feee786c88511c9fdb3b73f7e562b5c31d6032",
+   "bytes": 8235406,
+   "kind": "model_state_dict",
+   "source": "cytotrace2_py/resources/models/model4.pt",
+   "keys": {
+    "layers.0.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.0.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.1.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.2.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.3.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.4.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.5.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    }
+   }
+  },
+  "model5.npz": {
+   "sha256": "04fc02301252ce47c059a6c0b26d056a1544dce2cabad435f4106c0bc1207921",
+   "bytes": 8235406,
+   "kind": "model_state_dict",
+   "source": "cytotrace2_py/resources/models/model5.pt",
+   "keys": {
+    "layers.0.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.0.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.1.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.2.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.3.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.4.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.5.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    }
+   }
+  },
+  "model6.npz": {
+   "sha256": "444b541ce79db36d7a1e1028c8fd5269ca421a8475180e132f9f75b71caa8b9c",
+   "bytes": 8235406,
+   "kind": "model_state_dict",
+   "source": "cytotrace2_py/resources/models/model6.pt",
+   "keys": {
+    "layers.0.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.0.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.1.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.2.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.3.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.4.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.5.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    }
+   }
+  },
+  "model7.npz": {
+   "sha256": "ced21a3f91e9a34101f0eac7b5e3a7f99bdfe9721b3994cc9bde90ad7a8d74d9",
+   "bytes": 8235406,
+   "kind": "model_state_dict",
+   "source": "cytotrace2_py/resources/models/model7.pt",
+   "keys": {
+    "layers.0.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.0.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.1.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.2.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.3.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.4.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.5.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    }
+   }
+  },
+  "model8.npz": {
+   "sha256": "fbfcd3010358752571512e61f7b41e7f8f234b3e792fe82aaa96a1241b681a8f",
+   "bytes": 8235406,
+   "kind": "model_state_dict",
+   "source": "cytotrace2_py/resources/models/model8.pt",
+   "keys": {
+    "layers.0.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.0.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.1.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.2.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.3.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.4.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.5.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    }
+   }
+  },
+  "model9.npz": {
+   "sha256": "73af28a2994f9721e00977819ec8b48c054af228a2b83529811feba2379c6440",
+   "bytes": 8235406,
+   "kind": "model_state_dict",
+   "source": "cytotrace2_py/resources/models/model9.pt",
+   "keys": {
+    "layers.0.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.0.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.0.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.1.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.1.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.2.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.2.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.3.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.3.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.4.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.4.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.maxrank": {
+     "shape": [
+      1,
+      1
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.weight": {
+     "shape": [
+      14271,
+      24
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_mean": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.running_var": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.batchnorm.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "layers.5.out.weight": {
+     "shape": [
+      1,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "layers.5.out.bias": {
+     "shape": [
+      1
+     ],
+     "dtype": "float32"
+    }
+   }
+  },
+  "background.npz": {
+   "sha256": "64e1e06f9de1daf592d7bbf213104dc6ea18bba50a3d48aa663434cb12d4c9b9",
+   "bytes": 28542770,
+   "kind": "background_coo",
+   "source": "cytotrace2_py/resources/background.pt",
+   "indices_shape": [
+    2,
+    1427100
+   ],
+   "indices_dtype": "int64",
+   "values_dtype": "float32",
+   "dense_shape": [
+    14271,
+    14271
+   ],
+   "nnz": 1427100
+  },
+  "features.txt": {
+   "sha256": "5e3650f61260cdec5166bcc9b98e0151e96db1c1a98ed53181a9f19a59053311",
+   "bytes": 89898,
+   "kind": "feature_list",
+   "n": 14271,
+   "source": "cytotrace2_py/resources/features_model_training.csv"
+  },
+  "map_human_ortholog.tsv": {
+   "sha256": "c4da3444e5be7000e166a5e7d8f4d30d6bb4352489317e77ecda507a0753e984",
+   "bytes": 242731,
+   "n": 18613,
+   "kind": "human_gene->mouse_gene"
+  },
+  "map_human_alias.tsv": {
+   "sha256": "cf231cfa16fd79484c7690bd4ea7171c97ac5f6c0fcef185691f4c6b696f5beb",
+   "bytes": 1864,
+   "n": 150,
+   "kind": "human_alias->mouse_gene"
+  },
+  "map_mouse_alias.tsv": {
+   "sha256": "49b3e14df0a1b61bdce34edf19a0b633b8a47d25269a90cfd74e7c517d4e0472",
+   "bytes": 6957,
+   "n": 514,
+   "kind": "mouse_alias->mmgene"
+  },
+  "reference_constants.json": {
+   "sha256": "55557e7efe9307286696e7c6ca0ea6988de17118a579311ccce5634f2623ea27",
+   "kind": "constants"
+  }
+ },
+ "model_order": [
+  "model1.pt",
+  "model10.pt",
+  "model11.pt",
+  "model12.pt",
+  "model13.pt",
+  "model14.pt",
+  "model15.pt",
+  "model16.pt",
+  "model17.pt",
+  "model18.pt",
+  "model19.pt",
+  "model2.pt",
+  "model3.pt",
+  "model4.pt",
+  "model5.pt",
+  "model6.pt",
+  "model7.pt",
+  "model8.pt",
+  "model9.pt"
+ ],
+ "notes": {
+  "walk_order_is_lex": true
+ }
+}
