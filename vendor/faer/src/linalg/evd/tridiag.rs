@@ -522,7 +522,14 @@ pub fn tridiag_in_place<T: ComplexField>(
 										.ok()
 										.and_then(|v| v.parse::<usize>().ok())
 										.filter(|&g| g >= 1)
-										.unwrap_or(4)
+										// cand1: default the tridiagonalization slab width to
+									// the full worker pool instead of the historical
+									// constant 4 (tuned on a 32-core hybrid P/E WSL2
+									// box). servers with uniform cores and wide memory
+									// subsystems scale far past 4 streams; the
+									// C2RUST_TRI_GROUPS env override remains for
+									// topologies where wide fan-out regresses.
+									.unwrap_or(nthreads.max(1))
 										.min(nthreads.max(1))
 								}))
 								.max(1);
