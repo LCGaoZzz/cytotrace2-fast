@@ -2,9 +2,73 @@
 
 `cytotrace2-fast` is a single-binary Rust implementation of [CytoTRACE 2](https://github.com/digitalcytometry/cytotrace2). It preserves the model assets and result-table interface while replacing the Python/PyTorch runtime. It does not generate the upstream plots.
 
-**v1.3.0** replaces the per-prediction-batch full Gram eigendecomposition with matrix-free top-30 Lanczos PCA and removes the four-group tridiagonalization default. The finalized solver checks numerical residuals and fails explicitly on invalid or nonconverged input; it never silently falls back to an expensive full decomposition.
+## v1.3.0 — the large-scale breakthrough
 
-The historical development campaign reported **28,216 s → 148.13 s** on one 265,480-cell human input on a 224-thread server, comparing the old and new **Rust implementations**, not the official Python package. Those timings describe the **pre-hardening candidate represented by `aebce88`**, before the residual checks were added. They are not measurements of the finalized HEAD. See [measurement provenance](docs/DIFFERENCES.md) and [release validation](docs/RELEASE_VALIDATION.md).
+**v1.3.0 is not a micro-optimization. It removes the dominant asymptotic bottleneck that made the previous Rust implementation collapse at large prediction-batch sizes.**
+
+The old Rust PCA path did this:
+
+```text
+centered expression Xc
+        ↓
+materialize G = Xc · Xcᵀ        O(n²) memory
+        ↓
+full symmetric eigendecomposition O(n³) work
+        ↓
+discard almost everything
+        ↓
+keep only the top 30 PCs
+```
+
+v1.3.0 instead does this:
+
+```text
+centered expression Xc
+        ↓
+apply G only as Gv = Xc · (Xcᵀ · v)
+        ↓
+matrix-free Lanczos
+        ↓
+solve only the top 30 Ritz pairs
+        ↓
+explicitly certify residuals
+```
+
+That changes the PCA stage from **building a dense cell×cell Gram matrix and solving the full spectrum** to **computing only the 30 directions that CytoTRACE 2 actually consumes**. No model is retrained, no biological feature space is changed, and the KNN stage still receives a 30-dimensional PCA embedding.
+
+### What that meant in practice
+
+Historical many-core measurements on a 224-thread Xeon Platinum 8480C:
+
+| Input | Previous Rust v1.2.0 | v1.3.0 pre-hardening candidate | Improvement |
+| --- | ---: | ---: | ---: |
+| Synthetic 10k | 85.2 s | 9.53 s | **8.9×** |
+| Synthetic 50k, v1.2 with `TRI_GROUPS=224` | 2,818.23 s | 31.14 s | **90.5×** |
+| Real human 265,480 × 19,697, `bs=50000` | 28,216 s (7 h 50 m) | 148.13 s | **~190×** |
+
+The scaling pattern is the important part: the improvement becomes enormous exactly where the old full-spectrum eigendecomposition becomes dominant.
+
+The memory story is equally fundamental. For a prediction batch of roughly 44k cells, a single dense `f64` Gram matrix is already about **15.7 GiB** before eigensolver copies/workspace and the expression matrices are counted. v1.3.0 removes that PCA-side `n×n` object entirely. In the archived 265k campaign the new candidate peaked at **64.4 GiB**; an interrupted old-version twin had been sampled around **106.7 GiB**, although those are not standardized matched peak measurements and no exact memory-reduction percentage is claimed.
+
+This is why v1.3.0 can be **both dramatically faster and lower-memory**: it is not trading memory for speed. It stops computing and storing a full eigensystem that downstream CytoTRACE 2 never uses.
+
+### Why the numerical result stays essentially unchanged
+
+Both paths target the same mathematical object: the leading 30-dimensional PCA subspace. The difference is whether the program computes the whole spectrum first or solves the needed extremal subspace directly.
+
+Historical old-Rust vs new-Rust parity:
+
+- **50k:** final Score max|Δ| = `1.6e-10`, Spearman = `1.0`; preKNN is bit-identical.
+- **265k real input:** final Score max|Δ| = `1.33e-15`, Relative max|Δ| = `2.78e-15`, Spearman = `1.0`; preKNN max|Δ| = `0` over 265,474 finite entries.
+- Repeated candidate runs were byte-identical to each other.
+- The finalized solver now additionally certifies every returned Ritz pair with
+  `||G·u - λu|| / (λmax·||u||) <= 1e-10` and fails closed if convergence is not demonstrated.
+
+So the speedup does **not** come from reducing the model ensemble, changing the biological method, lowering floating-point precision, skipping KNN smoothing, or accepting a loose approximate answer. It comes from fixing the linear-algebra strategy.
+
+> **Important scope:** the headline **~190× is v1.2.0 Rust → v1.3.0 Rust** on the archived 265k real-data campaign. It is not a claim that v1.3.0 is 190× faster than the official Python CytoTRACE 2. The official Python implementation already uses truncated top-k PCA; v1.3.0 fixes a complexity regression in the previous Rust reimplementation.
+
+The archived timing numbers above describe the **pre-hardening candidate at `aebce88`**. The final v1.3.0 solver adds explicit residual certification and has not been re-benchmarked at 265k, so `148.13 s` is retained as historical provenance rather than presented as a fresh timing of the hardened HEAD. See [measurement provenance](docs/DIFFERENCES.md) and [release validation](docs/RELEASE_VALIDATION.md).
 
 CytoTRACE 2's biological method, pretrained models, feature space, and mapping tables are the upstream project's work. No model is retrained in this repository.
 
