@@ -134,7 +134,9 @@ fn parse_args() -> Args {
             "--dump-stage" => a.dump_stage = Some(next("dump-stage")),
             "--assets" => a.assets = next("assets"),
             "-h" | "--help" => {
-                println!("cytotrace2-fast {VERSION} — a Rust implementation of the CytoTRACE 2 CLI");
+                println!(
+                    "cytotrace2-fast {VERSION} — a Rust implementation of the CytoTRACE 2 CLI"
+                );
                 println!("Usage: cytotrace2 -f EXPRESSION -a ANNOTATIONS [options]");
                 println!("Run `cytotrace2 --help` with the official package for the upstream CLI reference.");
                 std::process::exit(0);
@@ -354,7 +356,8 @@ fn main() {
         println!("cytotrace2: Please consider reducing the batch_size to 50000 for runtime and memory efficiency.");
     }
     let mut chunk_number = (n_cells + batch_size - 1) / batch_size;
-    let mut smooth_chunk_number = (batch_size + args.smooth_batch_size - 1) / args.smooth_batch_size;
+    let mut smooth_chunk_number =
+        (batch_size + args.smooth_batch_size - 1) / args.smooth_batch_size;
     if n_cells < 1000 {
         chunk_number = 1;
         smooth_chunk_number = 1;
@@ -458,14 +461,22 @@ fn main() {
         };
     }
     let mn = final_score.iter().cloned().fold(f64::INFINITY, f64::min);
-    let mx = final_score.iter().cloned().fold(f64::NEG_INFINITY, f64::max);
+    let mx = final_score
+        .iter()
+        .cloned()
+        .fold(f64::NEG_INFINITY, f64::max);
     let final_relative: Vec<f64> = final_score.iter().map(|&v| (v - mn) / (mx - mn)).collect();
     mark(&mut timings, "final_assemble", t);
 
     if let Some(d) = &dump_dir {
         dump_f64(&dump_dir, "final_score.npy", &[n_cells], &final_score);
         dump_f64(&dump_dir, "final_relative.npy", &[n_cells], &final_relative);
-        dump_f64(&dump_dir, "final_preknn_score.npy", &[n_cells], &final_preknn);
+        dump_f64(
+            &dump_dir,
+            "final_preknn_score.npy",
+            &[n_cells],
+            &final_preknn,
+        );
         std::fs::write(d.join("final_potency.txt"), final_potency.join("\n") + "\n").unwrap();
         std::fs::write(
             d.join("final_preknn_potency.txt"),
@@ -586,7 +597,10 @@ fn process_batch(
                 continue;
             }
             if idx.insert(name.as_str(), g).is_some() {
-                panic!("duplicate gene after mapping: {} (unsupported in MVP)", name);
+                panic!(
+                    "duplicate gene after mapping: {} (unsupported in MVP)",
+                    name
+                );
             }
         }
         // micro-opt: resolve each feature's input column once (14271 map

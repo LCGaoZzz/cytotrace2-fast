@@ -44,9 +44,7 @@ fn full_embedding(x: &[f64], n: usize, f: usize) -> Vec<f64> {
 
 fn sqdist(e: &[f64], n: usize, i: usize, j: usize) -> f64 {
     let k = 30.min(n - 1);
-    (0..k)
-        .map(|c| (e[i * k + c] - e[j * k + c]).powi(2))
-        .sum()
+    (0..k).map(|c| (e[i * k + c] - e[j * k + c]).powi(2)).sum()
 }
 
 fn check_distances(x: &[f64], n: usize, f: usize, tol: f64) {

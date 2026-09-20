@@ -19,6 +19,7 @@ jobs:
           components: rustfmt
       - name: Check Python helpers and strict parity gate
         run: |
+          sudo apt-get install -y time
           python3 -m py_compile bench/*.py scripts/export_assets.py
           python3 -m unittest discover -s bench -p 'test_*.py' -v
       - name: Check build

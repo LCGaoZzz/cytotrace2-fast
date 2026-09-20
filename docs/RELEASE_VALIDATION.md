@@ -5,18 +5,20 @@
 The hardening implementation is commit `954b85345b55b38d276cc2ab4f9fc785f8db9286`,
 after the historical performance snapshot `aebce88d422c9bc7ea16d185e1e30508aa446cf3`.
 [Its CI run](https://github.com/LCGaoZzz/cytotrace2-fast/actions/runs/35488653468)
-actually passed the 22 strict-comparator tests, `cargo check --locked`, all 17
-Rust tests, and the CLI version assertion. That run's remaining failure was
-formatting in `src/main.rs`, corrected by the accompanying finalization commit.
-The current commit's **Checks** tab is authoritative for final-HEAD status;
-this parent-run record must not be described as an all-green final-HEAD run.
+actually passed the 22 strict-comparator tests, `cargo check --locked`, all 9
+Rust unit tests, and the CLI version assertion. That run's remaining failure was
+formatting; the follow-up finalization commit did not fully satisfy `cargo fmt`,
+and the benchmark-harness closeout completes that mechanical reformat. The
+current commit's **Checks** tab is authoritative for final-HEAD status; this
+parent-run record must not be described as an all-green final-HEAD run.
 
 Three metadata regression tests have additionally been executed locally, giving
 25 passing Python tests. They check the Cargo/lockfile/CLI version source,
 benchmark units and ratios, and historical source/statistic labels. The same
-25-test suite is now discovered by CI. No external Python packages are needed.
+suite is now discovered by CI; with the seven harness tests below it counts 32
+Python tests. No external Python packages are needed.
 
-The 17 Rust tests comprise nine existing formatting tests and eight new
+The 9 Rust unit tests comprise one formatting-utility test and eight new
 numerical regression tests. New coverage includes:
 
 - Full-EVD versus Lanczos distances, 30-neighbor ordering, KNN scores and potency
@@ -44,6 +46,21 @@ missingness cannot disappear into a zero maximum delta. An entirely missing
 numeric column cannot pass. It writes strict JSON with hashes and thresholds.
 Byte identity is an optional separate requirement, not a synonym for tolerance
 agreement. The negative cases are checked through actual subprocess exit codes.
+
+## Benchmark harness hardening
+
+`bench/run_one.py` was rewritten so a benchmark cannot silently lie or hang:
+child stdout/stderr stream directly to files instead of undrained pipes, a
+nonzero child exit propagates as the wrapper's exit code, an existing run
+directory is refused instead of reused, and a missing GNU `/usr/bin/time` or
+binary is an explicit error before launch. Each run records the exact command,
+environment overrides, binary and result SHA-256, GNU-time wall/CPU/peak-RSS,
+the child exit code, and supplementary `/proc` snapshots; a sampling failure
+never aborts the run. Seven wrapper regression tests (`bench/test_run_one.py`)
+drive tiny fake executables through success, child failure, missing output,
+multi-megabyte output, directory reuse, label escaping, and malformed
+STAGE_TIMINGS; they require GNU time and skip where it is absent. CI installs
+the `time` package so they always execute there. No real model run is involved.
 
 ## Deliberately not rerun
 

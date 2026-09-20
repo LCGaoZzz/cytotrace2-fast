@@ -277,7 +277,11 @@ const PCA_RESIDUAL_TOL: f64 = 1e-10;
 /// Returns (embedding n×npc row-major = U_top·sqrt(λ) with λ descending,
 /// Lanczos steps used, matvec count including explicit residual checks).
 /// A step limit or non-finite input is an error, not an implicit full-EVD fallback.
-pub fn lanczos_pca_embedding(xct: &[f64], n: usize, f: usize) -> Result<(Vec<f64>, usize, usize), String> {
+pub fn lanczos_pca_embedding(
+    xct: &[f64],
+    n: usize,
+    f: usize,
+) -> Result<(Vec<f64>, usize, usize), String> {
     lanczos_with_limit(xct, n, f, 300)
 }
 
