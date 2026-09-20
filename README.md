@@ -95,7 +95,7 @@ git clone https://github.com/LCGaoZzz/cytotrace2-fast.git
 cd cytotrace2-fast
 RUSTFLAGS="-C target-cpu=native" cargo build --release --locked
 ./target/release/cytotrace2 --version
-# cytotrace2-fast 1.3.0
+# cytotrace2-fast 1.3.1
 ```
 
 Omit `target-cpu=native` when building for a different CPU. `target/` is a local build directory, not part of the repository. The checked-in `assets/` directory is found from the working directory or the standard Cargo release layout. Alternatively use `CYTOTRACE2_ASSETS=/path/to/assets` or `--assets /path/to/assets`.
@@ -123,12 +123,20 @@ The expression file is a tab- or comma-separated matrix with genes in rows, cell
 | `-r` | `--seed` | `14` | NumPy-compatible pipeline MT19937 seed |
 | `-o` | `--output-dir` | `cytotrace2_results` | Output directory |
 | `-dpa` | `--disable-parallelization` | off | Upstream-compatible parallelization flag |
-| `-mc` | `--max-cores` | automatic | Prediction/KNN worker setting |
+| `-mc` | `--max-cores` | automatic | Global Rayon worker cap; also bounds prediction/KNN pools |
 | `-dpl` | `--disable-plotting` | off | Parsed; no figures are written either way |
 | `-dv` | `--disable-verbose` | off | Suppress parameter summary |
 | | `--assets` | auto | Asset directory |
 | | `--dump-stage DIR` | off | Intermediate arrays for debugging |
 | | `--version` | | Version from `Cargo.toml` |
+
+### CPU/thread limiting (v1.3.1)
+
+`--max-cores N` now configures Rayon's **global** worker pool before any parallel work starts. This closes a real gap in v1.3.0: prediction/KNN-local pools respected the CLI cap, while preprocessing, PCA and vendored faer paths could still initialize/use the machine-wide Rayon pool. `--disable-parallelization` now forces the same global pool to one worker.
+
+When `--max-cores` is omitted, the program leaves Rayon's normal environment-based configuration untouched, so `RAYON_NUM_THREADS` continues to work as before.
+
+This is an **in-process Rayon limit**, not an operating-system CPU-affinity boundary. It does not hide CPUs from unrelated Python/native libraries that call their own `cpu_count()`, and the asset loader still uses a small number of explicit standard threads for I/O/model loading. If a workflow needs a hard CPU allocation across mixed libraries, enforce affinity/cgroups at the runner level (for example `taskset`) in addition to library-specific thread variables.
 
 Prediction and diffusion batch sizes are separate. Large inputs should keep bounded prediction batches (defaults, or `--batch-size 50000`) and bounded diffusion batches (default `1000`). The companion recipe retains its >30,000-cell whole-input-single-batch guard as a conservative support boundary. It is not a claim that prediction batch size alone always allocates a full-dataset diffusion matrix. KNN still computes all-pairs distances within a prediction batch; removing the PCA Gram matrix does not make the entire pipeline linear.
 
