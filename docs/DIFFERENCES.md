@@ -47,6 +47,59 @@ The measurements below use WSL2, 32 logical cores, 94 GB RAM, cached official mo
 
 At 10,000 cells the fast output remains deterministic, but the score difference against the official run grows to `7.1e-06`; potency remains `100%` identical and Spearman is `0.9999999996`. This is a known large-graph reduction-order difference between Torch/SciPy and the Rust/f64 path, rather than run-to-run noise.
 
+## Many-core scaling and the Lanczos PCA path (v1.3.0)
+
+v1.3.0 changes two internals, both invisible to the CLI:
+
+- The vendored faer blocked-Householder tridiagonalization no longer pins its
+  slab groups to 4; it defaults to the full Rayon pool width
+  (`C2RUST_TRI_GROUPS=<n>` overrides). The old pin was tuned on a 32-core
+  hybrid P/E desktop and throttled many-core servers to ~4 threads in the
+  `O(n^3)` EVD core (issue #1's sampled `cores=4.1` with near-zero page
+  faults).
+- `pca_embedding` computes the top-30 eigenpairs (all that downstream
+  consumes) with a Lanczos iteration with full reorthogonalization that applies
+  `G = Xc*Xc^T` only through matrix-vector products, a deterministic
+  fixed-chunk ascending parallel reduction, an MT19937(seed) start vector,
+  top-30 Ritz-value stability convergence, and a fixed eigenvector sign
+  convention. The previous default built the n-by-n Gram matrix and ran a
+  full-spectrum self-adjoint EVD. `C2RUST_PCA=full` restores the legacy path.
+
+Determinism and parity evidence:
+
+- v1.2.0 outputs are byte-identical across `C2RUST_TRI_GROUPS` values
+  (vignette and 10,000-cell tiers, default vs 224) and across independent
+  builds of `d334c0e` with the same flags. The 50,000-cell v1.2.0 comparison
+  run used the override; the 265k reference is v1.2.0's own completed
+  default-configuration run on that exact input (7 h 50 m wall, 2026-09-19,
+  the production run behind issue #1).
+- Official vignette gate on v1.3.0: `CytoTRACE2_Score` max|diff| at the
+  1.7e-09 scale (identical regime to v1.2.0), preKNN max|diff| `0`, potency
+  `100%`, Spearman `1.0` (`bench/parity_check.py`, `--atol 1e-6`).
+- 10,000-cell in-process check: Lanczos top-30 vs faer full spectrum,
+  eigenvalue relative difference <= `1.9e-14`, 30-NN neighbor sets and order
+  `100%` identical.
+- 50,000-cell tier vs v1.2.0: preKNN columns bit-identical, Score
+  max|diff| `1.6e-10`, Spearman `1.0`.
+- Real 265,480 x 19,697 input vs the v1.2.0 default reference run: identical
+  header, row order, and NaN pattern (the same 20 cells with empty
+  post-smoothing scores — v1.2.0's documented multi-batch NaN edge, reproduced
+  identically); `preKNN_CytoTRACE2_Score` max|diff| `0` over all 265,474
+  non-empty entries (bit-identical); `CytoTRACE2_Score` max|diff| `1.33e-15`,
+  `CytoTRACE2_Relative` max|diff| `2.78e-15` over the 265,460 common cells;
+  potency exact except the shared empty cells; Spearman `1.0`.
+- v1.3.0 repeat runs are byte-identical: three clean 265k runs share one
+  output SHA-256, which also matches a pre-release run executed under
+  different machine load.
+
+Measurement protocol for the 224-thread table: binaries rebuilt from the
+tagged commits with `RUSTFLAGS="-C target-cpu=native"` (SHA-256 recorded per
+run); every number is the median of three runs on an otherwise idle machine;
+the v1.2.0 reference and the v1.3.0 timing runs were executed under the same
+frozen-load window. `bench/run_one.py` wraps the binary with `/proc` sampling
+and stage timings (`C2RUST_TIME_SUB=1`); `bench/compare_two.py` performs the
+fast-vs-fast column comparison used for the parity rows above.
+
 ## Reproducing the measurements
 
 Build the release binary with the CPU's native instruction set:

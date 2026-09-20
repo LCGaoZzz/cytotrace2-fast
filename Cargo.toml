@@ -1,6 +1,6 @@
 [package]
 name = "cytotrace2-fast"
-version = "1.2.0"
+version = "1.3.0"
 edition = "2021"
 description = "cytotrace2-fast: Rust reimplementation of CytoTRACE 2 (CLI-compatible, parity-verified against the official Python implementation)"
 

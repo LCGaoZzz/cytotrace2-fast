@@ -120,6 +120,41 @@ Measurements were made on WSL2 with 32 logical cores and 94 GB RAM. The official
 | Synthetic, 50,000 cells | killed at 40 min | **`444 s`** | official did not finish | `49.7 -> 23.6 GB` |
 | Synthetic, 200,000 cells | not feasible (>200 GB estimated) | **`1,790.6 s`** | fast path completed | `- -> 56.9 GB` |
 
+### Many-core servers and large real inputs (v1.3.0)
+
+Issue [#1](https://github.com/LCGaoZzz/cytotrace2-fast/issues/1) measured v1.2.0 on a
+224-thread Xeon Platinum 8480C (503 GB): a real 265,480-cell x 19,697-gene human input
+at `--batch-size 50000` ran 3 h 20 min without finishing. Two v1.2.0 behaviors caused it:
+the vendored tridiagonalization pinned its slab groups to 4 (tuned on a 32-core desktop),
+throttling the `O(n^3)` EVD core to ~4 of 224 threads, and the PCA embedding materialized
+an n-by-n Gram matrix per prediction batch. v1.3.0 defaults the tridiagonalization groups
+to the full Rayon pool width and computes the top-30 PCA embedding with a fully
+reorthogonalized Lanczos iteration — `O(n*f*m)` time, `O(n*(f+m))` memory, no `n^2`
+object. `C2RUST_PCA=full` restores the legacy PCA path; `C2RUST_TRI_GROUPS=<n>` overrides
+the tridiagonalization width.
+
+Same 224-thread machine, identical inputs, medians of three runs, binaries built with
+`RUSTFLAGS="-C target-cpu=native"` (protocol and parity chain in
+[`docs/DIFFERENCES.md`](docs/DIFFERENCES.md)):
+
+| Input | v1.2.0 default | v1.2.0 `C2RUST_TRI_GROUPS=224` | **v1.3.0** | v1.3.0 peak RSS |
+| --- | ---: | ---: | ---: | ---: |
+| Vignette, 2,850 cells | `9.0 s` | `13.5 s` | `7.0 s` | `2.5 GB` |
+| Synthetic, 10,000 cells | `85.2 s` | `69.2 s` | `9.5 s` | `6.2 GB` |
+| Synthetic, 50,000 cells (`bs=50000`) | ~17,400 s (extrapolated) | `2,818 s` | `31.1 s` | `29.0 GB` |
+| Synthetic, 100,000 cells | — | — | `60.8 s` * | `31.2 GB` |
+| Synthetic, 250,000 cells | — | — | `152.8 s` * | `36.9 GB` |
+| Real human, 265,480 x 19,697 (`bs=50000`) | **`7 h 50 m` (completed run; the issue #1 twin was killed at 3 h 22 m) | — | **`148.1 s`** | `64.4 GB` |
+
+The v1.3.0 265k number is the median of three byte-identical runs at a mean of ~160
+cores — the low-parallelism phase is gone. Rows marked * are single diagnostic runs from
+the development campaign; all other v1.3.0 numbers are medians of three byte-identical
+runs. The v1.2.0 265k reference is that version's own completed default-configuration
+run on this exact input (7 h 50 m wall, 2026-09-19, the production run behind issue #1);
+v1.2.0 outputs were separately verified byte-identical across `C2RUST_TRI_GROUPS`
+values and across independent builds of the same commit, which is what licenses the
+override column at the smaller tiers.
+
 The benchmark protocol and the machine-readable table are in [`docs/DIFFERENCES.md`](docs/DIFFERENCES.md) and [`bench/benchmark_results.csv`](bench/benchmark_results.csv). To time your own input three times and run the parity gate, use:
 
 ```bash
