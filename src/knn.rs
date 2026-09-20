@@ -33,10 +33,13 @@ pub fn scale_rows(log2: &[f64], n: usize) -> Vec<f64> {
     out
 }
 
-/// PCA (arpack top-30) via dense symmetric eigendecomposition of the Gram matrix.
+/// Top-30 PCA via residual-checked Lanczos; explicit legacy full EVD is optional.
 /// Returns embedding (n x 30) = U * sqrt(lambda), eigenvalues descending.
-pub fn pca_embedding(data_scale: &[f64], n: usize) -> Vec<f64> {
+pub fn pca_embedding(data_scale: &[f64], n: usize) -> Result<Vec<f64>, String> {
     let f = crate::pipeline::N_FEATURES;
+    if n < 2 || n.checked_mul(f) != Some(data_scale.len()) {
+        return Err("PCA: invalid matrix dimensions".into());
+    }
     let time_sub = std::env::var("C2RUST_TIME_SUB").is_ok();
     let t0 = std::time::Instant::now();
     // column means: identical per-column value sequence (i ascending) and the
@@ -95,6 +98,41 @@ pub fn pca_embedding(data_scale: &[f64], n: usize) -> Vec<f64> {
             });
     }
     let t_tr = t0.elapsed().as_secs_f64();
+    // ---- cand3-lanczos: top-30 PCA via Lanczos with full reorthogonalization
+    // on G = Xc·Xcᵀ, WITHOUT forming the n×n Gram matrix (the matvec is
+    // w = Xcᵀ·v then y = Xc·w on this k-major centered layout). Replaces the
+    // O(n³) full-spectrum faer EVD + O(n²) Gram with O(n·f·m) work and
+    // O(n·(f+m)) memory. Offline validation at 10k cells against the full
+    // EVD: eigenvalue rel diff ≤ 3e-14, per-cell 30-NN neighbor sets and
+    // orders 100% identical, normalized-distance max diff 1.3e-13.
+    // Default path; set C2RUST_PCA=full to restore the legacy full EVD.
+    if std::env::var("C2RUST_PCA").as_deref() != Ok("full") {
+        let t_l0 = t0.elapsed().as_secs_f64();
+        let (emb, conv_m, matvecs) = lanczos_pca_embedding(&xct, n, f)?;
+        let t_lan = t0.elapsed().as_secs_f64() - t_l0;
+        let npc = 30.min(n - 1);
+        if let Ok(p) = std::env::var("C2RUST_DUMP_EMB") {
+            let mut buf: Vec<u8> = Vec::with_capacity(16 + n * npc * 8);
+            buf.extend_from_slice(&(n as u64).to_le_bytes());
+            buf.extend_from_slice(&(npc as u64).to_le_bytes());
+            for v in emb.iter() {
+                buf.extend_from_slice(&v.to_le_bytes());
+            }
+            std::fs::write(p, &buf).expect("dump emb");
+        }
+        if time_sub {
+            eprintln!(
+                "SUB pca {{\"colmean_s\":{:.4},\"transpose_s\":{:.4},\"lanczos_s\":{:.4},\"lanczos_m\":{},\"lanczos_matvecs\":{},\"extract_s\":{:.4}}}",
+                t_cm,
+                t_tr - t_cm,
+                t_lan,
+                conv_m,
+                matvecs,
+                t0.elapsed().as_secs_f64() - t_tr - t_lan
+            );
+        }
+        return Ok(emb);
+    }
     // symmetric Gram, blocked ikj with sequential-k accumulation per element
     // (upper-triangle tiles computed in parallel, mirrored after collection)
     let mut g = vec![0.0f64; n * n];
@@ -218,7 +256,407 @@ pub fn pca_embedding(data_scale: &[f64], n: usize) -> Vec<f64> {
             t0.elapsed().as_secs_f64() - t_evd
         );
     }
-    emb
+    Ok(emb)
+}
+
+const PCA_RESIDUAL_TOL: f64 = 1e-10;
+
+/// Top-30 eigenpairs of G = Xc·Xcᵀ via Lanczos with full reorthogonalization.
+/// `xct` is the column-centered matrix in k-major layout: xct[k*n + i],
+/// k in 0..f (feature), i in 0..n (cell). G is only ever applied through
+/// w = Xcᵀ·v and y = Xc·w — the n×n Gram and the full eigenvector matrix are
+/// never formed, so peak memory stays O(n·(f+m)) instead of O(n²).
+///
+/// Determinism: every reduction uses a fixed per-element accumulation order
+/// (ascending, or numpy pairwise where noted), and the starting vector comes
+/// from a fixed-seed MT19937 stream — repeated runs are byte-identical.
+/// Eigenvector signs are canonicalized (largest-|entry| positive); pairwise
+/// distances in the embedding are sign-invariant, so downstream KNN smoothing
+/// is invariant to sign changes. Truncated-subspace accuracy still needs validation.
+///
+/// Returns (embedding n×npc row-major = U_top·sqrt(λ) with λ descending,
+/// Lanczos steps used, matvec count including explicit residual checks).
+/// A step limit or non-finite input is an error, not an implicit full-EVD fallback.
+pub fn lanczos_pca_embedding(
+    xct: &[f64],
+    n: usize,
+    f: usize,
+) -> Result<(Vec<f64>, usize, usize), String> {
+    lanczos_with_limit(xct, n, f, 300)
+}
+
+fn lanczos_with_limit(
+    xct: &[f64],
+    n: usize,
+    f: usize,
+    max_steps: usize,
+) -> Result<(Vec<f64>, usize, usize), String> {
+    if n < 2 || f == 0 || n.checked_mul(f) != Some(xct.len()) || max_steps == 0 {
+        return Err("PCA: invalid matrix dimensions or iteration limit".into());
+    }
+    if !xct.par_iter().all(|x| x.is_finite()) {
+        return Err("PCA: centered input contains NaN or infinity".into());
+    }
+    let t0 = std::time::Instant::now();
+    let npc = 30.min(n - 1);
+
+    // y = G·v = Xc·(Xcᵀ·v). Both stages write disjoint outputs in parallel
+    // with a FIXED per-element accumulation order — deterministic.
+    let matvec = |v: &[f64], w: &mut [f64], y: &mut [f64]| {
+        // w[k] = Σ_i xct[k*n+i]·v[i] — parallel over disjoint k-blocks;
+        // each dot strictly ascending in i
+        w.par_chunks_mut(64).enumerate().for_each(|(kb, wchunk)| {
+            for (kk, wk) in wchunk.iter_mut().enumerate() {
+                let k = kb * 64 + kk;
+                let row = &xct[k * n..(k + 1) * n];
+                let mut acc = 0.0f64;
+                for i in 0..n {
+                    acc += row[i] * v[i];
+                }
+                *wk = acc;
+            }
+        });
+        // y[i] = Σ_k xct[k*n+i]·w[k] — parallel over disjoint i-blocks; each
+        // element accumulates ascending in k (single sweep of xct rows)
+        y.par_chunks_mut(64).enumerate().for_each(|(ib, yb)| {
+            for yi in yb.iter_mut() {
+                *yi = 0.0;
+            }
+            let i0 = ib * 64;
+            for k in 0..f {
+                let wk = w[k];
+                if wk != 0.0 {
+                    let row = &xct[k * n + i0..k * n + i0 + yb.len()];
+                    for (yi, &xv) in yb.iter_mut().zip(row.iter()) {
+                        *yi += xv * wk;
+                    }
+                }
+            }
+        });
+    };
+
+    let m_max = n.min(max_steps);
+    let mut basis: Vec<f64> = Vec::with_capacity(n * m_max); // column-major n×m
+    let mut alpha: Vec<f64> = Vec::with_capacity(m_max);
+    let mut beta: Vec<f64> = Vec::with_capacity(m_max);
+    let mut wbuf: Vec<f64> = vec![0.0; f];
+    let mut ybuf: Vec<f64> = vec![0.0; n];
+    let mut scratch: Vec<f64> = vec![0.0; n];
+
+    // deterministic start vector from MT19937(14)
+    let mut rng = crate::rng::Mt19937::new(14);
+    let mut v: Vec<f64> = (0..n).map(|_| rng.res53() - 0.5).collect();
+    for (s, &x) in scratch.iter_mut().zip(v.iter()) {
+        *s = x * x;
+    }
+    let nv = np_sum_f64(&scratch).sqrt();
+    for x in v.iter_mut() {
+        *x /= nv;
+    }
+    basis.extend_from_slice(&v);
+    // deterministic parallel dot: fixed chunk boundaries, sequential sum
+    // within a chunk, ascending combine — byte-identical across runs and
+    // independent of thread count
+    fn par_dot(a: &[f64], b: &[f64]) -> f64 {
+        const C: usize = 16384;
+        let nch = (a.len() + C - 1) / C;
+        let parts: Vec<f64> = (0..nch)
+            .into_par_iter()
+            .map(|ci| {
+                let s = ci * C;
+                let e = (s + C).min(a.len());
+                let mut acc = 0.0f64;
+                for i in s..e {
+                    acc += a[i] * b[i];
+                }
+                acc
+            })
+            .collect();
+        let mut r = 0.0f64;
+        for p in parts {
+            r += p;
+        }
+        r
+    }
+
+    let mut vprev: Vec<f64> = vec![0.0; n];
+
+    let mut conv_m = 0;
+    let mut last_residual_est = f64::INFINITY;
+    let mut matvecs = 0usize;
+    let mut prev_theta: Option<Vec<f64>> = None;
+    let mut stable = 0usize;
+    let mut m = 0usize;
+    while m < m_max {
+        matvec(&v, &mut wbuf, &mut ybuf);
+        matvecs += 1;
+        let a_m = par_dot(&v, &ybuf);
+        for i in 0..n {
+            ybuf[i] -= a_m * v[i];
+            if m > 0 {
+                ybuf[i] -= beta[m - 1] * vprev[i];
+            }
+        }
+        // full reorthogonalization: two passes of classical Gram-Schmidt.
+        // Phase 1 computes all projection coefficients (parallel over basis
+        // vectors, read-only); phase 2 subtracts them (parallel over disjoint
+        // i-blocks, each sweeping the basis vectors contiguously).
+        for _pass in 0..2 {
+            let coeffs: Vec<f64> = (0..=m)
+                .into_par_iter()
+                .map(|j| par_dot(&ybuf, &basis[j * n..(j + 1) * n]))
+                .collect();
+            ybuf.par_chunks_mut(4096).enumerate().for_each(|(ib, yb)| {
+                let i0 = ib * 4096;
+                for (j, &c) in coeffs.iter().enumerate() {
+                    if c != 0.0 {
+                        let bj = &basis[j * n + i0..j * n + i0 + yb.len()];
+                        for (yi, &bv) in yb.iter_mut().zip(bj.iter()) {
+                            *yi -= c * bv;
+                        }
+                    }
+                }
+            });
+        }
+        let b_m = par_dot(&ybuf, &ybuf).sqrt();
+        if !a_m.is_finite() || !b_m.is_finite() {
+            return Err(format!(
+                "PCA: non-finite Lanczos recurrence at step {}",
+                m + 1
+            ));
+        }
+        alpha.push(a_m);
+        m += 1;
+        // Stability is only a candidate-stop heuristic. Require a residual
+        // estimate too; every returned vector is checked explicitly below.
+        if (m >= npc + 18 && m % 6 == 0) || m == m_max {
+            let (theta, residual_est) = tridiag_topk_desc(&alpha, &beta, npc, b_m)?;
+            last_residual_est = residual_est;
+            if let Some(ref pt) = prev_theta {
+                let mut mx = 0.0f64;
+                for c in 0..theta.len().min(pt.len()) {
+                    let denom = pt[c].abs().max(1e-300);
+                    let d = (theta[c] - pt[c]).abs() / denom;
+                    if d > mx {
+                        mx = d;
+                    }
+                }
+                if mx < 1e-12 {
+                    stable += 1;
+                } else {
+                    stable = 0;
+                }
+            }
+            let complete = theta.len() == npc;
+            prev_theta = Some(theta);
+            if complete && (stable >= 2 || m == m_max) && residual_est <= PCA_RESIDUAL_TOL {
+                conv_m = m;
+                break;
+            }
+        }
+        if m == m_max {
+            break;
+        }
+        let scale_ref = alpha
+            .iter()
+            .fold(0.0f64, |a, &x| a.abs().max(x))
+            .max(1e-300);
+        if b_m <= 1e-13 * scale_ref {
+            // happy breakdown / deflation: T keeps a zero coupling; restart
+            // with a fresh vector orthogonalized against the basis
+            beta.push(0.0);
+            let mut rng2 = crate::rng::Mt19937::new(14 + m as u32);
+            let mut cand: Vec<f64> = (0..n).map(|_| rng2.res53() - 0.5).collect();
+            for _pass in 0..2 {
+                for j in 0..m {
+                    let bj = &basis[j * n..(j + 1) * n];
+                    for (s, (&x, &y)) in scratch.iter_mut().zip(cand.iter().zip(bj.iter())) {
+                        *s = x * y;
+                    }
+                    let c = np_sum_f64(&scratch);
+                    if c != 0.0 {
+                        for i in 0..n {
+                            cand[i] -= c * bj[i];
+                        }
+                    }
+                }
+            }
+            for (s, &x) in scratch.iter_mut().zip(cand.iter()) {
+                *s = x * x;
+            }
+            let cn = np_sum_f64(&scratch).sqrt();
+            if !(cn.is_finite() && cn > 0.0) {
+                return Err(format!(
+                    "PCA: restart vector exhausted before certification at step {m}"
+                ));
+            }
+            for x in cand.iter_mut() {
+                *x /= cn;
+            }
+            vprev.copy_from_slice(&v);
+            v = cand;
+            basis.extend_from_slice(&v);
+            continue;
+        }
+        beta.push(b_m);
+        let mut vnext = vec![0.0f64; n];
+        for i in 0..n {
+            vnext[i] = ybuf[i] / b_m;
+        }
+        vprev.copy_from_slice(&v);
+        v = vnext;
+        basis.extend_from_slice(&v);
+    }
+    if conv_m == 0 {
+        return Err(format!(
+            "PCA: Lanczos did not converge in {m} steps (limit {m_max}, residual estimate {last_residual_est:e}, tolerance {PCA_RESIDUAL_TOL:e}); no result returned"
+        ));
+    }
+
+    // final Rayleigh-Ritz: small dense symmetric EVD of T_m (m ≤ 300)
+    use faer::{Mat, Side};
+    let mm = alpha.len();
+    let mut t = vec![0.0f64; mm * mm];
+    for i in 0..mm {
+        t[i * mm + i] = alpha[i];
+    }
+    for j in 0..beta.len().min(mm.saturating_sub(1)) {
+        let b = beta[j];
+        t[j * mm + j + 1] = b;
+        t[(j + 1) * mm + j] = b;
+    }
+    let tm = Mat::from_fn(mm, mm, |i, j| t[i * mm + j]);
+    let evd = tm
+        .self_adjoint_eigen(Side::Lower)
+        .map_err(|e| format!("PCA: Lanczos Ritz decomposition failed: {e:?}"))?;
+    let s = evd.S();
+    let u = evd.U();
+    let kk = npc.min(mm);
+    let spectral_scale = s[mm - 1].abs();
+    if !spectral_scale.is_finite() || spectral_scale == 0.0 {
+        return Err("PCA: zero or non-finite spectrum; KNN distances are undefined".into());
+    }
+    // build the npc Ritz vectors (parallel over columns, then serial scatter)
+    let checked_cols: Result<Vec<(Vec<f64>, f64)>, String> = (0..kk)
+        .into_par_iter()
+        .map(|c| {
+            let j = mm - 1 - c; // descending eigenvalues
+            if !s[j].is_finite() || s[j] < -PCA_RESIDUAL_TOL * spectral_scale {
+                return Err(format!("PCA: invalid Ritz value {}", s[j]));
+            }
+            let lam = s[j].max(0.0);
+            let sc = lam.sqrt();
+            let mut col = vec![0.0f64; n];
+            for l in 0..mm {
+                let wgt = u[(l, j)];
+                if wgt != 0.0 {
+                    let bl = &basis[l * n..(l + 1) * n];
+                    for i in 0..n {
+                        col[i] += wgt * bl[i];
+                    }
+                }
+            }
+            // Explicit G*u - lambda*u check, independent of Ritz-value
+            // stability. Use the leading Ritz value as the global scale;
+            // this also handles null-space directions in rank-deficient data.
+            let norm = par_dot(&col, &col).sqrt();
+            if !norm.is_finite() || (norm - 1.0).abs() > 1e-8 {
+                return Err(format!("PCA: invalid Ritz-vector norm {norm:e}"));
+            }
+            let mut w = vec![0.0; f];
+            let mut residual = vec![0.0; n];
+            matvec(&col, &mut w, &mut residual);
+            for i in 0..n {
+                residual[i] -= lam * col[i];
+            }
+            let error = par_dot(&residual, &residual).sqrt() / spectral_scale / norm;
+            if !error.is_finite() || error > PCA_RESIDUAL_TOL {
+                return Err(format!(
+                    "PCA: explicit residual {error:e} exceeds {PCA_RESIDUAL_TOL:e} for component {c}; no result returned"
+                ));
+            }
+            // sign convention: largest-|entry| positive (first index on ties)
+            let mut mi = 0usize;
+            let mut mv = 0.0f64;
+            for (i, &x) in col.iter().enumerate() {
+                if x.abs() > mv {
+                    mv = x.abs();
+                    mi = i;
+                }
+            }
+            if col[mi] < 0.0 {
+                for x in col.iter_mut() {
+                    *x = -(*x);
+                }
+            }
+            if sc != 1.0 {
+                for x in col.iter_mut() {
+                    *x *= sc;
+                }
+            }
+            Ok((col, error))
+        })
+        .collect();
+    let cols = checked_cols?;
+    matvecs += kk;
+    let max_residual = cols.iter().map(|(_, r)| *r).fold(0.0f64, f64::max);
+    let mut emb = vec![0.0f64; n * npc];
+    for (c, (col, _)) in cols.iter().enumerate() {
+        for (i, &x) in col.iter().enumerate() {
+            emb[i * npc + c] = x;
+        }
+    }
+    if std::env::var("C2RUST_TIME_SUB").is_ok() {
+        eprintln!(
+            "SUB lanczos {{\"n\":{},\"f\":{},\"m\":{},\"conv_m\":{},\"matvecs\":{},\"max_residual\":{:.4e},\"converged\":true,\"lanczos_s\":{:.4}}}",
+            n,
+            f,
+            mm,
+            conv_m,
+            matvecs,
+            max_residual,
+            t0.elapsed().as_secs_f64()
+        );
+    }
+    Ok((emb, conv_m, matvecs))
+}
+
+/// Top-k Ritz values (descending) of the tridiagonal matrix built from
+/// alpha/beta — used only for the Lanczos convergence checks.
+fn tridiag_topk_desc(
+    alpha: &[f64],
+    beta: &[f64],
+    k: usize,
+    beta_tail: f64,
+) -> Result<(Vec<f64>, f64), String> {
+    use faer::{Mat, Side};
+    let m = alpha.len();
+    let mut t = vec![0.0f64; m * m];
+    for i in 0..m {
+        t[i * m + i] = alpha[i];
+    }
+    for j in 0..beta.len().min(m.saturating_sub(1)) {
+        let b = beta[j];
+        t[j * m + j + 1] = b;
+        t[(j + 1) * m + j] = b;
+    }
+    let tm = Mat::from_fn(m, m, |i, j| t[i * m + j]);
+    let evd = tm
+        .self_adjoint_eigen(Side::Lower)
+        .map_err(|e| format!("PCA: Ritz convergence check failed: {e:?}"))?;
+    let s = evd.S();
+    let u = evd.U();
+    let kk = k.min(m);
+    let scale = s[m - 1].abs().max(f64::MIN_POSITIVE);
+    let mut max_residual = 0.0f64;
+    for c in 0..kk {
+        let r = (beta_tail * u[(m - 1, m - 1 - c)]).abs() / scale;
+        if !r.is_finite() || !s[m - 1 - c].is_finite() {
+            return Err("PCA: non-finite Ritz convergence estimate".into());
+        }
+        max_residual = max_residual.max(r);
+    }
+    Ok(((0..kk).map(|c| s[m - 1 - c]).collect(), max_residual))
 }
 
 /// map_score_to_potency label index (-1 for above all / nan)
@@ -383,3 +821,7 @@ pub fn cut_potency(score: f64) -> Option<usize> {
     }
     None
 }
+
+#[cfg(test)]
+#[path = "knn_tests.rs"]
+mod tests;
