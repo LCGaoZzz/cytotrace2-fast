@@ -1,11 +1,5 @@
 dataset,cells,official_wall_s,fast_wall_s,speedup,official_peak_rss_gb,fast_peak_rss_gb,notes
-official_mouse_pancreas,2850,62.84,4.49,14.00,5.63,2.98,official vignette median; cached models; default seed 14
-synthetic_10k,10000,162.4,84.9,1.91,15.7,10.0,scaling diagnostic; potency 100 percent matched
-synthetic_50k,50000,,,"official did not finish",49.7,23.6,official killed at 40 minute cap
-synthetic_200k,200000,,,"fast path completed",,56.9,official estimated infeasible above 200 GB
-manycore_224t_vignette,2850,,13.53,7.02,,2.52,224-thread Xeon 8480C; v1.2.0 TRI_GROUPS=224 vs v1.3.0; v1.3.0 gate PASS vs official
-manycore_224t_synthetic_10k,10000,85.2,69.16,9.53,,6.22,224t; v1.2.0 default vs v1.2.0 TRI_GROUPS=224 vs v1.3.0 median of 3
-manycore_224t_synthetic_50k_bs50000,50000,,2818.23,31.14,,29.0,224t; single batch bs=50000; v1.3.0 median of 3
-manycore_224t_real_265k,265480,28216,,148.13,,64.4,224t; issue #1 real human input bs=50000; v1.2.0 default completed run (14:06:43-21:56:59); v1.3.0 median of 3 byte-identical (sha256 10e367091ecab2bb)
-manycore_224t_synthetic_100k,100000,,,60.76,,31.22,224t; v1.3.0 single diagnostic run
-manycore_224t_synthetic_250k,250000,,,152.77,,36.90,224t; v1.3.0 single diagnostic run
+official_mouse_pancreas,2850,62.84,4.49,14.00,5.63,2.98,historical v1.2.0 vs official; cached models; default seed 14; original GB labels
+synthetic_10k,10000,162.4,84.9,1.91,15.7,10.0,historical v1.2.0 vs official; scaling diagnostic; potency 100 percent matched
+synthetic_50k,50000,,444,,49.7,23.6,historical v1.2.0; official killed at 40 minute cap; official RSS is at kill
+synthetic_200k,200000,,1790.6,,,56.9,historical v1.2.0; official not completed; above 200 GB estimate is not a measurement
