@@ -2,19 +2,30 @@ name: build-and-check
 
 on:
   push:
+    branches: [main]
   pull_request:
+
+permissions:
+  contents: read
 
 jobs:
   rust:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt
-      - name: Check formatting
-        run: cargo fmt --check
+      - name: Check Python helpers and strict parity gate
+        run: |
+          python3 -m py_compile bench/*.py scripts/export_assets.py
+          python3 -m unittest discover -s bench -p 'test_*.py' -v
       - name: Check build
         run: cargo check --locked
-      - name: Check Python helpers
-        run: python3 -m py_compile bench/parity_check.py scripts/export_assets.py
+      - name: Small numerical regression tests (no model assets or large benchmarks)
+        run: cargo test --locked --bin cytotrace2
+      - name: Check CLI version
+        run: test "$(cargo run --locked --quiet -- --version)" = "cytotrace2-fast 1.3.0"
+      - name: Check formatting
+        run: cargo fmt --check

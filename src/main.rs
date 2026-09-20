@@ -33,7 +33,7 @@ struct Args {
     assets: String,
 }
 
-const VERSION: &str = "1.2.0";
+const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 fn default_assets_dir() -> String {
     // Prefer an explicit environment override so packaged binaries can keep
@@ -686,7 +686,7 @@ fn process_batch(
 
     // ---- ensemble inference ----
     // r6 micro-opt: the 19 model npz files are preloaded on the background
-    // thread in main() (rayon-parallel across files, overlapping io_parse);
+    // thread in main() (rayon-parallel across files), overlapping io_parse;
     // the model_load stage time is reported there. The f64->f32 conversions
     // below are now rayon-parallel per-element casts (same values, same order
     // — collect over par_iter preserves sequence order).
@@ -765,7 +765,10 @@ fn process_batch(
         dump_f64(dump_dir, "data_scale.npy", &[nb, f], &data_scale);
         mark(timings, "knn_scale", t);
         let t = Instant::now();
-        let embed = knn::pca_embedding(&data_scale, nb);
+        let embed = knn::pca_embedding(&data_scale, nb).unwrap_or_else(|error| {
+            eprintln!("cytotrace2: {error}");
+            std::process::exit(1);
+        });
         dump_f64(dump_dir, "pca_embedding.npy", &[nb, 30.min(nb - 1)], &embed);
         mark(timings, "knn_pca", t);
         let t = Instant::now();

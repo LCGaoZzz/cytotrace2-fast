@@ -33,10 +33,13 @@ pub fn scale_rows(log2: &[f64], n: usize) -> Vec<f64> {
     out
 }
 
-/// PCA (arpack top-30) via dense symmetric eigendecomposition of the Gram matrix.
+/// Top-30 PCA via residual-checked Lanczos; explicit legacy full EVD is optional.
 /// Returns embedding (n x 30) = U * sqrt(lambda), eigenvalues descending.
-pub fn pca_embedding(data_scale: &[f64], n: usize) -> Vec<f64> {
+pub fn pca_embedding(data_scale: &[f64], n: usize) -> Result<Vec<f64>, String> {
     let f = crate::pipeline::N_FEATURES;
+    if n < 2 || n.checked_mul(f) != Some(data_scale.len()) {
+        return Err("PCA: invalid matrix dimensions".into());
+    }
     let time_sub = std::env::var("C2RUST_TIME_SUB").is_ok();
     let t0 = std::time::Instant::now();
     // column means: identical per-column value sequence (i ascending) and the
@@ -105,7 +108,7 @@ pub fn pca_embedding(data_scale: &[f64], n: usize) -> Vec<f64> {
     // Default path; set C2RUST_PCA=full to restore the legacy full EVD.
     if std::env::var("C2RUST_PCA").as_deref() != Ok("full") {
         let t_l0 = t0.elapsed().as_secs_f64();
-        let (emb, conv_m, matvecs) = lanczos_pca_embedding(&xct, n, f);
+        let (emb, conv_m, matvecs) = lanczos_pca_embedding(&xct, n, f)?;
         let t_lan = t0.elapsed().as_secs_f64() - t_l0;
         let npc = 30.min(n - 1);
         if let Ok(p) = std::env::var("C2RUST_DUMP_EMB") {
@@ -128,7 +131,7 @@ pub fn pca_embedding(data_scale: &[f64], n: usize) -> Vec<f64> {
                 t0.elapsed().as_secs_f64() - t_tr - t_lan
             );
         }
-        return emb;
+        return Ok(emb);
     }
     // symmetric Gram, blocked ikj with sequential-k accumulation per element
     // (upper-triangle tiles computed in parallel, mirrored after collection)
@@ -253,8 +256,10 @@ pub fn pca_embedding(data_scale: &[f64], n: usize) -> Vec<f64> {
             t0.elapsed().as_secs_f64() - t_evd
         );
     }
-    emb
+    Ok(emb)
 }
+
+const PCA_RESIDUAL_TOL: f64 = 1e-10;
 
 /// Top-30 eigenpairs of G = Xc·Xcᵀ via Lanczos with full reorthogonalization.
 /// `xct` is the column-centered matrix in k-major layout: xct[k*n + i],
@@ -267,12 +272,27 @@ pub fn pca_embedding(data_scale: &[f64], n: usize) -> Vec<f64> {
 /// from a fixed-seed MT19937 stream — repeated runs are byte-identical.
 /// Eigenvector signs are canonicalized (largest-|entry| positive); pairwise
 /// distances in the embedding are sign-invariant, so downstream KNN smoothing
-/// is unaffected.
+/// is invariant to sign changes. Truncated-subspace accuracy still needs validation.
 ///
 /// Returns (embedding n×npc row-major = U_top·sqrt(λ) with λ descending,
-/// Lanczos steps used, matvec count).
-pub fn lanczos_pca_embedding(xct: &[f64], n: usize, f: usize) -> (Vec<f64>, usize, usize) {
-    use rayon::prelude::*;
+/// Lanczos steps used, matvec count including explicit residual checks).
+/// A step limit or non-finite input is an error, not an implicit full-EVD fallback.
+pub fn lanczos_pca_embedding(xct: &[f64], n: usize, f: usize) -> Result<(Vec<f64>, usize, usize), String> {
+    lanczos_with_limit(xct, n, f, 300)
+}
+
+fn lanczos_with_limit(
+    xct: &[f64],
+    n: usize,
+    f: usize,
+    max_steps: usize,
+) -> Result<(Vec<f64>, usize, usize), String> {
+    if n < 2 || f == 0 || n.checked_mul(f) != Some(xct.len()) || max_steps == 0 {
+        return Err("PCA: invalid matrix dimensions or iteration limit".into());
+    }
+    if !xct.par_iter().all(|x| x.is_finite()) {
+        return Err("PCA: centered input contains NaN or infinity".into());
+    }
     let t0 = std::time::Instant::now();
     let npc = 30.min(n - 1);
 
@@ -311,7 +331,7 @@ pub fn lanczos_pca_embedding(xct: &[f64], n: usize, f: usize) -> (Vec<f64>, usiz
         });
     };
 
-    let m_max = n.min(300).max(npc + 8);
+    let m_max = n.min(max_steps);
     let mut basis: Vec<f64> = Vec::with_capacity(n * m_max); // column-major n×m
     let mut alpha: Vec<f64> = Vec::with_capacity(m_max);
     let mut beta: Vec<f64> = Vec::with_capacity(m_max);
@@ -357,7 +377,8 @@ pub fn lanczos_pca_embedding(xct: &[f64], n: usize, f: usize) -> (Vec<f64>, usiz
 
     let mut vprev: Vec<f64> = vec![0.0; n];
 
-    let mut conv_m = m_max;
+    let mut conv_m = 0;
+    let mut last_residual_est = f64::INFINITY;
     let mut matvecs = 0usize;
     let mut prev_theta: Option<Vec<f64>> = None;
     let mut stable = 0usize;
@@ -394,15 +415,22 @@ pub fn lanczos_pca_embedding(xct: &[f64], n: usize, f: usize) -> (Vec<f64>, usiz
             });
         }
         let b_m = par_dot(&ybuf, &ybuf).sqrt();
+        if !a_m.is_finite() || !b_m.is_finite() {
+            return Err(format!(
+                "PCA: non-finite Lanczos recurrence at step {}",
+                m + 1
+            ));
+        }
         alpha.push(a_m);
         m += 1;
-        // convergence: top-npc Ritz values stable to 1e-12 across two
-        // consecutive checks (every 6 steps once the basis is wide enough)
-        if m >= npc + 18 && (m % 6 == 0 || m == m_max) {
-            let theta = tridiag_topk_desc(&alpha, &beta, npc);
+        // Stability is only a candidate-stop heuristic. Require a residual
+        // estimate too; every returned vector is checked explicitly below.
+        if (m >= npc + 18 && m % 6 == 0) || m == m_max {
+            let (theta, residual_est) = tridiag_topk_desc(&alpha, &beta, npc, b_m)?;
+            last_residual_est = residual_est;
             if let Some(ref pt) = prev_theta {
                 let mut mx = 0.0f64;
-                for c in 0..npc {
+                for c in 0..theta.len().min(pt.len()) {
                     let denom = pt[c].abs().max(1e-300);
                     let d = (theta[c] - pt[c]).abs() / denom;
                     if d > mx {
@@ -415,14 +443,14 @@ pub fn lanczos_pca_embedding(xct: &[f64], n: usize, f: usize) -> (Vec<f64>, usiz
                     stable = 0;
                 }
             }
+            let complete = theta.len() == npc;
             prev_theta = Some(theta);
-            if stable >= 2 {
+            if complete && (stable >= 2 || m == m_max) && residual_est <= PCA_RESIDUAL_TOL {
                 conv_m = m;
                 break;
             }
         }
         if m == m_max {
-            conv_m = m;
             break;
         }
         let scale_ref = alpha
@@ -454,7 +482,9 @@ pub fn lanczos_pca_embedding(xct: &[f64], n: usize, f: usize) -> (Vec<f64>, usiz
             }
             let cn = np_sum_f64(&scratch).sqrt();
             if !(cn.is_finite() && cn > 0.0) {
-                break; // basis spans the whole space
+                return Err(format!(
+                    "PCA: restart vector exhausted before certification at step {m}"
+                ));
             }
             for x in cand.iter_mut() {
                 *x /= cn;
@@ -473,7 +503,11 @@ pub fn lanczos_pca_embedding(xct: &[f64], n: usize, f: usize) -> (Vec<f64>, usiz
         v = vnext;
         basis.extend_from_slice(&v);
     }
-    let t_lan = t0.elapsed().as_secs_f64();
+    if conv_m == 0 {
+        return Err(format!(
+            "PCA: Lanczos did not converge in {m} steps (limit {m_max}, residual estimate {last_residual_est:e}, tolerance {PCA_RESIDUAL_TOL:e}); no result returned"
+        ));
+    }
 
     // final Rayleigh-Ritz: small dense symmetric EVD of T_m (m ≤ 300)
     use faer::{Mat, Side};
@@ -488,15 +522,24 @@ pub fn lanczos_pca_embedding(xct: &[f64], n: usize, f: usize) -> (Vec<f64>, usiz
         t[(j + 1) * mm + j] = b;
     }
     let tm = Mat::from_fn(mm, mm, |i, j| t[i * mm + j]);
-    let evd = tm.self_adjoint_eigen(Side::Lower).expect("lanczos tridiag eigh");
+    let evd = tm
+        .self_adjoint_eigen(Side::Lower)
+        .map_err(|e| format!("PCA: Lanczos Ritz decomposition failed: {e:?}"))?;
     let s = evd.S();
     let u = evd.U();
     let kk = npc.min(mm);
+    let spectral_scale = s[mm - 1].abs();
+    if !spectral_scale.is_finite() || spectral_scale == 0.0 {
+        return Err("PCA: zero or non-finite spectrum; KNN distances are undefined".into());
+    }
     // build the npc Ritz vectors (parallel over columns, then serial scatter)
-    let cols: Vec<Vec<f64>> = (0..kk)
+    let checked_cols: Result<Vec<(Vec<f64>, f64)>, String> = (0..kk)
         .into_par_iter()
         .map(|c| {
             let j = mm - 1 - c; // descending eigenvalues
+            if !s[j].is_finite() || s[j] < -PCA_RESIDUAL_TOL * spectral_scale {
+                return Err(format!("PCA: invalid Ritz value {}", s[j]));
+            }
             let lam = s[j].max(0.0);
             let sc = lam.sqrt();
             let mut col = vec![0.0f64; n];
@@ -508,6 +551,25 @@ pub fn lanczos_pca_embedding(xct: &[f64], n: usize, f: usize) -> (Vec<f64>, usiz
                         col[i] += wgt * bl[i];
                     }
                 }
+            }
+            // Explicit G*u - lambda*u check, independent of Ritz-value
+            // stability. Use the leading Ritz value as the global scale;
+            // this also handles null-space directions in rank-deficient data.
+            let norm = par_dot(&col, &col).sqrt();
+            if !norm.is_finite() || (norm - 1.0).abs() > 1e-8 {
+                return Err(format!("PCA: invalid Ritz-vector norm {norm:e}"));
+            }
+            let mut w = vec![0.0; f];
+            let mut residual = vec![0.0; n];
+            matvec(&col, &mut w, &mut residual);
+            for i in 0..n {
+                residual[i] -= lam * col[i];
+            }
+            let error = par_dot(&residual, &residual).sqrt() / spectral_scale / norm;
+            if !error.is_finite() || error > PCA_RESIDUAL_TOL {
+                return Err(format!(
+                    "PCA: explicit residual {error:e} exceeds {PCA_RESIDUAL_TOL:e} for component {c}; no result returned"
+                ));
             }
             // sign convention: largest-|entry| positive (first index on ties)
             let mut mi = 0usize;
@@ -528,27 +590,41 @@ pub fn lanczos_pca_embedding(xct: &[f64], n: usize, f: usize) -> (Vec<f64>, usiz
                     *x *= sc;
                 }
             }
-            col
+            Ok((col, error))
         })
         .collect();
+    let cols = checked_cols?;
+    matvecs += kk;
+    let max_residual = cols.iter().map(|(_, r)| *r).fold(0.0f64, f64::max);
     let mut emb = vec![0.0f64; n * npc];
-    for (c, col) in cols.iter().enumerate() {
+    for (c, (col, _)) in cols.iter().enumerate() {
         for (i, &x) in col.iter().enumerate() {
             emb[i * npc + c] = x;
         }
     }
     if std::env::var("C2RUST_TIME_SUB").is_ok() {
         eprintln!(
-            "SUB lanczos {{\"n\":{},\"f\":{},\"m\":{},\"conv_m\":{},\"matvecs\":{},\"lanczos_s\":{:.4}}}",
-            n, f, mm, conv_m, matvecs, t_lan
+            "SUB lanczos {{\"n\":{},\"f\":{},\"m\":{},\"conv_m\":{},\"matvecs\":{},\"max_residual\":{:.4e},\"converged\":true,\"lanczos_s\":{:.4}}}",
+            n,
+            f,
+            mm,
+            conv_m,
+            matvecs,
+            max_residual,
+            t0.elapsed().as_secs_f64()
         );
     }
-    (emb, conv_m, matvecs)
+    Ok((emb, conv_m, matvecs))
 }
 
 /// Top-k Ritz values (descending) of the tridiagonal matrix built from
 /// alpha/beta — used only for the Lanczos convergence checks.
-fn tridiag_topk_desc(alpha: &[f64], beta: &[f64], k: usize) -> Vec<f64> {
+fn tridiag_topk_desc(
+    alpha: &[f64],
+    beta: &[f64],
+    k: usize,
+    beta_tail: f64,
+) -> Result<(Vec<f64>, f64), String> {
     use faer::{Mat, Side};
     let m = alpha.len();
     let mut t = vec![0.0f64; m * m];
@@ -561,10 +637,22 @@ fn tridiag_topk_desc(alpha: &[f64], beta: &[f64], k: usize) -> Vec<f64> {
         t[(j + 1) * m + j] = b;
     }
     let tm = Mat::from_fn(m, m, |i, j| t[i * m + j]);
-    let evd = tm.self_adjoint_eigen(Side::Lower).expect("ritz check eigh");
+    let evd = tm
+        .self_adjoint_eigen(Side::Lower)
+        .map_err(|e| format!("PCA: Ritz convergence check failed: {e:?}"))?;
     let s = evd.S();
+    let u = evd.U();
     let kk = k.min(m);
-    (0..kk).map(|c| s[m - 1 - c]).collect()
+    let scale = s[m - 1].abs().max(f64::MIN_POSITIVE);
+    let mut max_residual = 0.0f64;
+    for c in 0..kk {
+        let r = (beta_tail * u[(m - 1, m - 1 - c)]).abs() / scale;
+        if !r.is_finite() || !s[m - 1 - c].is_finite() {
+            return Err("PCA: non-finite Ritz convergence estimate".into());
+        }
+        max_residual = max_residual.max(r);
+    }
+    Ok(((0..kk).map(|c| s[m - 1 - c]).collect(), max_residual))
 }
 
 /// map_score_to_potency label index (-1 for above all / nan)
@@ -729,3 +817,7 @@ pub fn cut_potency(score: f64) -> Option<usize> {
     }
     None
 }
+
+#[cfg(test)]
+#[path = "knn_tests.rs"]
+mod tests;
