@@ -17,6 +17,61 @@ fn mark(timings: &mut Vec<(String, f64)>, name: &str, t: Instant) {
     timings.push((name.to_string(), t.elapsed().as_secs_f64()));
 }
 
+fn bounded_thread_cap(requested: usize, available: usize) -> usize {
+    requested.min(available.max(1)).max(1)
+}
+
+/// Make an explicit --max-cores authoritative for every Rayon operation in
+/// this process. Without this, only the local prediction/KNN pools honored
+/// the CLI value while preprocessing, PCA and vendored faer work could still
+/// initialize Rayon's global pool at the machine-wide CPU count.
+///
+/// When --max-cores is absent we deliberately leave the global pool untouched,
+/// preserving Rayon's normal RAYON_NUM_THREADS / available_parallelism rules.
+/// This is a Rayon worker cap, not an OS CPU-affinity or cgroup boundary.
+fn configure_global_rayon(max_cores: Option<usize>) -> Option<usize> {
+    let requested = max_cores?;
+    let available = std::thread::available_parallelism()
+        .map(|v| v.get())
+        .unwrap_or(1);
+    let cap = bounded_thread_cap(requested, available);
+    rayon::ThreadPoolBuilder::new()
+        .num_threads(cap)
+        .build_global()
+        .unwrap_or_else(|e| {
+            panic!(
+                "failed to configure global Rayon pool before parallel work: {}",
+                e
+            )
+        });
+    assert_eq!(
+        rayon::current_num_threads(),
+        cap,
+        "global Rayon pool did not honor --max-cores"
+    );
+    Some(cap)
+}
+
+#[cfg(test)]
+mod thread_limit_tests {
+    use super::bounded_thread_cap;
+
+    #[test]
+    fn requested_cap_is_respected_below_machine_width() {
+        assert_eq!(bounded_thread_cap(64, 224), 64);
+    }
+
+    #[test]
+    fn requested_cap_is_clamped_to_available_parallelism() {
+        assert_eq!(bounded_thread_cap(512, 224), 224);
+    }
+
+    #[test]
+    fn thread_cap_never_becomes_zero() {
+        assert_eq!(bounded_thread_cap(1, 0), 1);
+    }
+}
+
 struct Args {
     input_path: String,
     annotation_path: String,
@@ -126,7 +181,13 @@ fn parse_args() -> Args {
                 a.smooth_batch_size = next("smooth-batch-size").parse().unwrap()
             }
             "-dpa" | "--disable-parallelization" => a.disable_parallelization = true,
-            "-mc" | "--max-cores" => a.max_cores = Some(next("max-cores").parse().unwrap()),
+            "-mc" | "--max-cores" => {
+                let value: usize = next("max-cores").parse().unwrap();
+                if value == 0 {
+                    usage_err("max-cores must be >= 1");
+                }
+                a.max_cores = Some(value);
+            }
             "-r" | "--seed" => a.seed = next("seed").parse().unwrap(),
             "-o" | "--output-dir" => a.output_dir = next("output-dir"),
             "-dpl" | "--disable-plotting" => a.disable_plotting = true,
@@ -210,6 +271,7 @@ fn dump_i64(d: &Option<PathBuf>, name: &str, shape: &[usize], data: &[i64]) {
 fn main() {
     let t_start = Instant::now();
     let args = parse_args();
+    let global_rayon_cap = configure_global_rayon(args.max_cores);
     let mut timings: Vec<(String, f64)> = Vec::new();
 
     if !args.disable_verbose {
@@ -222,6 +284,9 @@ fn main() {
         );
         println!("    Batch size: {}", args.batch_size);
         println!("    Smoothing batch size: {}", args.smooth_batch_size);
+        if let Some(cap) = global_rayon_cap {
+            println!("    Global Rayon worker cap: {}", cap);
+        }
         println!("    Seed: {}", args.seed);
         println!("    Output directory: {}", args.output_dir);
         println!("    Plotting enabled: {}", !args.disable_plotting);
