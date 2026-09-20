@@ -1,4 +1,23 @@
-# v1.3.0 finalization: validation scope
+# Release validation notes
+
+## v1.3.1: global Rayon CPU-budget patch
+
+v1.3.1 makes an explicit `--max-cores N` authoritative for the process-wide
+Rayon pool before any parallel work starts. This covers preprocessing, PCA and
+vendored faer work in addition to the existing prediction/KNN-local pools.
+`--disable-parallelization` now configures the global Rayon pool to one worker.
+
+The implementation deliberately does **not** set OS CPU affinity and does not
+claim to cap unrelated non-Rayon libraries or the small explicit std-thread
+asset-loading fan-out. Mixed Python/native workflows that need a hard CPU
+allocation should enforce affinity/cgroups in the runner as a separate layer.
+
+Five pure unit tests cover cap selection: requested width below/above available
+parallelism, zero-availability defense, `--disable-parallelization` precedence,
+and no-explicit-cap behavior. The runtime also asserts that the initialized
+global Rayon pool width equals the requested effective cap.
+
+## v1.3.0 finalization: validation scope
 
 ## Source and executed checks
 
@@ -18,7 +37,7 @@ benchmark units and ratios, and historical source/statistic labels. The same
 suite is now discovered by CI; with the seven harness tests below it counts 32
 Python tests. No external Python packages are needed.
 
-The 9 Rust unit tests comprise one formatting-utility test and eight new
+The v1.3.0 closeout's 9 Rust unit tests comprise one formatting-utility test and eight new
 numerical regression tests. New coverage includes:
 
 - Full-EVD versus Lanczos distances, 30-neighbor ordering, KNN scores and potency
@@ -30,8 +49,7 @@ numerical regression tests. New coverage includes:
 - Same-build repeatability and a one-thread/two-thread comparison.
 
 These tests use matrices of at most 128 cells, not model inference or large
-expression datasets. The current workflow also requires formatting and checks
-that the executable reports `cytotrace2-fast 1.3.0` from Cargo's package version.
+expression datasets. The current workflow also requires formatting and checks that the executable reports the Cargo package version. v1.3.1 adds five thread-cap unit tests.
 
 ## Fail-closed numerical and output contracts
 
@@ -84,7 +102,7 @@ python3 -m unittest discover -s bench -p 'test_*.py' -v
 cargo check --locked
 cargo test --locked --bin cytotrace2
 cargo fmt --check
-test "$(cargo run --locked --quiet -- --version)" = "cytotrace2-fast 1.3.0"
+test "$(cargo run --locked --quiet -- --version)" = "cytotrace2-fast 1.3.1"
 ```
 
 When original result files are available, comparison alone does not rerun the
