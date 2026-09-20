@@ -21,7 +21,18 @@ fn bounded_thread_cap(requested: usize, available: usize) -> usize {
     requested.min(available.max(1)).max(1)
 }
 
-/// Make an explicit --max-cores authoritative for every Rayon operation in
+fn requested_global_rayon_cap(
+    disable_parallelization: bool,
+    max_cores: Option<usize>,
+) -> Option<usize> {
+    if disable_parallelization {
+        Some(1)
+    } else {
+        max_cores
+    }
+}
+
+/// Make an explicit --max-cores (or --disable-parallelization) authoritative for every Rayon operation in
 /// this process. Without this, only the local prediction/KNN pools honored
 /// the CLI value while preprocessing, PCA and vendored faer work could still
 /// initialize Rayon's global pool at the machine-wide CPU count.
@@ -54,7 +65,7 @@ fn configure_global_rayon(max_cores: Option<usize>) -> Option<usize> {
 
 #[cfg(test)]
 mod thread_limit_tests {
-    use super::bounded_thread_cap;
+    use super::{bounded_thread_cap, requested_global_rayon_cap};
 
     #[test]
     fn requested_cap_is_respected_below_machine_width() {
@@ -69,6 +80,18 @@ mod thread_limit_tests {
     #[test]
     fn thread_cap_never_becomes_zero() {
         assert_eq!(bounded_thread_cap(1, 0), 1);
+    }
+
+    #[test]
+    fn disable_parallelization_forces_one_global_worker() {
+        assert_eq!(requested_global_rayon_cap(true, Some(64)), Some(1));
+        assert_eq!(requested_global_rayon_cap(true, None), Some(1));
+    }
+
+    #[test]
+    fn max_cores_is_used_when_parallelism_is_enabled() {
+        assert_eq!(requested_global_rayon_cap(false, Some(64)), Some(64));
+        assert_eq!(requested_global_rayon_cap(false, None), None);
     }
 }
 
@@ -271,7 +294,10 @@ fn dump_i64(d: &Option<PathBuf>, name: &str, shape: &[usize], data: &[i64]) {
 fn main() {
     let t_start = Instant::now();
     let args = parse_args();
-    let global_rayon_cap = configure_global_rayon(args.max_cores);
+    let global_rayon_cap = configure_global_rayon(requested_global_rayon_cap(
+        args.disable_parallelization,
+        args.max_cores,
+    ));
     let mut timings: Vec<(String, f64)> = Vec::new();
 
     if !args.disable_verbose {
