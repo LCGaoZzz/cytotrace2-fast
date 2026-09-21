@@ -1,0 +1,24 @@
+name: omicos-harness
+
+on:
+  push:
+    branches: [main]
+    paths: ['agent-harness/**', '.github/workflows/omicos-harness.yml']
+  pull_request:
+    paths: ['agent-harness/**', '.github/workflows/omicos-harness.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  adapter:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Standard-library adapter contracts
+        run: python3 -m unittest discover -s agent-harness/tests -v
+      - name: Install optional h5ad test dependencies
+        run: python3 -m pip install 'anndata>=0.10,<0.13' numpy scipy
+      - name: Include real h5ad slot and sparse export tests
+        run: python3 -m unittest discover -s agent-harness/tests -v

@@ -1,0 +1,13 @@
+{
+  "input_path": "counts.tsv",
+  "output_dir": "runs/cytotrace2-001",
+  "species": "human",
+  "expression_scale": "counts",
+  "binary": "../../target/release/cytotrace2",
+  "assets": "../../assets",
+  "seed": 14,
+  "batch_size": 10000,
+  "smooth_batch_size": 1000,
+  "max_cores": 4,
+  "timeout_seconds": null
+}
