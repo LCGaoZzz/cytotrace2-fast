@@ -1,5 +1,73 @@
 # Requests, input format and outputs
 
+## LLM-led input assessment
+
+Assess and prepare input using the existing Omicos Python/file tools before
+calling the scripts. This guidance delegates judgment to the LLM; it adds no
+classifier, `auto` option or new request fields. Do not ask the user to identify
+counts versus lognorm when available data and records let you resolve it.
+
+**Inspect, then choose.** For h5ad, examine `X`, available layers and `raw.X`,
+together with each candidate's gene metadata (`raw.var` for `raw.X`). Read the
+available preprocessing code, notebook and metadata; inspect representative
+values, nonnegativity, finiteness, integer-likeness and per-cell totals as useful.
+Use bounded/sparse-aware checks rather than densifying the whole object.
+Distinguish counts, unlogged normalized expression, logged expression and
+scaled/residual/integrated values. Slot names, a low maximum, integer-likeness
+or `uns["log1p"]` alone do not establish the history of a particular slot.
+
+When the user has not fixed a source, prefer provenance-backed counts with the
+requested cells and suitable gene coverage; existing unlogged CPM/TPM are also
+supported without further transformation. Do not force a counts-named layer if
+it is inconsistent or gene-restricted while an appropriate broader matrix is
+available. Preserve user-selected cells, literal IDs and species. Check gene
+symbols/mapping and coverage; do not silently use only HVGs or treat a targeted
+panel as broad scRNA-seq. Resolve routine preparation choices yourself; ask only
+when a scientifically material ambiguity or user-fixed conflict remains.
+
+**Logged input.** Prefer a retained suitable linear matrix over reconstructing
+one. When only logged expression is available, establish the actual transform,
+log base, pre-log scale and any later operations before applying an inverse to
+a copy. For known `y = ln(1 + x)`, use `expm1(y)`; for known `log2(1 + x)` or
+`log10(1 + x)`, use `2**y - 1` or `10**y - 1`, respectively. These recover `x`
+(up to numerical precision), not necessarily counts. Inverse log-counts gives
+counts; inverse log-CPM/TPM gives CPM/TPM. Never guess the base from the filename
+or simply exponentiate any nonnegative matrix.
+
+For example, only when the recorded transformation is exactly
+`y = ln(1 + 10000 * counts / full_library_total)` with no subsequent value-changing
+operation, `expm1(y)` is counts per 10,000 and `100 * expm1(y)` is CPM under that
+original denominator. This is a mathematical conversion, not raw-count recovery
+or a claim that every Scanpy object followed that recipe. Check the actual
+normalization options and feature history. Do not round normalized values into
+fake counts, label counts-per-10,000 as CPM unchanged, or invent a library total
+from an HVG subset. Undoing logs cannot restore discarded genes. Prefer an
+available suitable broader matrix; explain unresolved coverage limitations.
+
+Scaled data, Pearson/SCT residuals, integrated/corrected values or clipped data
+must not be turned into counts by blanket exponentiation or clipping negatives.
+Look for a retained supported expression matrix or the original source instead.
+If history is insufficient for a justified conversion, identify the specific
+missing information rather than relabeling the input to make the run succeed.
+
+**Prepare, record, run.** Justified input preparation is authorized as part of the
+analysis; it does not require confirmation at every step. Work in a new artifact,
+never overwrite the original, and retain source path/slot, evidence, selected
+scale, gene column, cell/gene coverage, actual transformations and prepared path
+in the existing notebook or analysis record. For a transformation, write a new
+prepared h5ad/TSV with existing Python tools; the exporter itself does not undo
+logs. Check finite/nonnegative values and IDs, fill the request with the actual
+prepared scale, then run the normal entrypoint. The request accepts only
+`counts`, `CPM`, `TPM`: do not invent `lognorm` or `auto`, or call unconverted logs
+`counts`. Exporter provenance describes its own unchanged-value export, not any
+upstream transformation performed by the LLM; link your preparation record.
+
+Sources for the input semantics: [CytoTRACE 2 input requirements](https://github.com/digitalcytometry/cytotrace2),
+[Scanpy log1p](https://scanpy.readthedocs.io/en/stable/generated/scanpy.pp.log1p.html),
+[Scanpy normalize_total](https://scanpy.readthedocs.io/en/stable/generated/scanpy.pp.normalize_total.html)
+and [AnnData raw snapshots](https://anndata.readthedocs.io/en/stable/generated/anndata.AnnData.raw.html).
+The workflow above is integration guidance, not a tested automated scale detector.
+
 ## Saved JSON request
 
 ```json
@@ -76,6 +144,10 @@ python /resolved/scripts/prepare_h5ad.py \
   --matrix-source layers/counts --gene-column gene_symbols \
   --expression-scale counts --gene-chunk-size 16
 ```
+
+This example assumes inspection established that `layers/counts` contains suitable
+counts. The LLM supplies these explicit arguments after assessment; the user need
+not manually select them. For transformed data, point to the new prepared artifact.
 
 `--matrix-source` is required: `X`, `raw.X`, or `layers/NAME`. The default gene
 column is `var_names`; a named column comes from the selected matrix's `var`

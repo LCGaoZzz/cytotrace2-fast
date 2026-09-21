@@ -1,10 +1,10 @@
 ---
 id: cytotrace2-fast
 name: CytoTRACE2 Fast
-description: Run or interpret cytotrace2-fast in Omicos, prepare explicitly selected h5ad expression slots, and retain CLI parameters, logs, missingness and cell-aligned results.
+description: Run or interpret cytotrace2-fast in Omicos; assess counts/lognorm and other expression scales, prepare suitable input with existing tools, and retain cell-aligned results and provenance.
 tier: community
 category: general_omics_analysis
-summary: Portable CytoTRACE2 Rust execution with explicit input provenance and traceable results.
+summary: LLM-led input assessment and preparation with portable CytoTRACE2 Rust execution and traceable results.
 execution_mode: packaged_python
 runtime_entrypoint: scripts/run_cytotrace2.py
 ---
@@ -17,10 +17,32 @@ anndata/numpy/scipy environment. Do not rebuild or install on every invocation.
 Choose the public CLI directly for unsupported custom options; do not invent
 JSON fields or silently ignore user parameters to fit this adapter.
 
-Preserve species, expression source, cells, genes, seeds and both batch sizes.
-The adapter never normalizes, log-transforms, imputes, renames or downsamples.
-Only unlogged counts/CPM/TPM are supported. Input provenance, not a successful
-numeric check, establishes whether a matrix is appropriate.
+Preserve user-fixed species, expression source, cells, genes, seeds and both
+batch sizes. Only unlogged counts/CPM/TPM are supported by the execution path.
+The scripts never infer scale, normalize, undo logs, impute, rename or downsample;
+that does not prevent you from assessing and preparing inputs with existing tools.
+
+## LLM-led input preparation
+
+For an unprepared h5ad or matrix, inspect the available slots, matching gene IDs,
+processing records and representative values yourself. Use that evidence to
+choose a suitable matrix and fill the explicit `matrix-source`, `gene-column`
+and `expression_scale` arguments. These are agent-resolved parameters, not a
+requirement that the user manually classify their data. Prefer verified unlogged
+counts/CPM/TPM; do not transform an already suitable input unnecessarily.
+
+If only logged data are available and the history supports a reliable inverse,
+prepare a separate linear-scale artifact with the correct scale declaration.
+Never blindly apply `expm1` to an unknown matrix or call inverse-normalized values
+raw counts. Consult [input assessment and conversion](references/inputs-and-results.md#llm-led-input-assessment)
+for evidence, log-base handling and unsupported inputs. Record the decision and
+any transformations in the existing notebook/analysis record, preserve the source,
+then export, validate as needed and run. Routine justified preparation needs no
+additional approval. Ask only about material unresolved ambiguity or a conflict
+with a user-fixed choice, after inspecting the available evidence.
+
+This is an instruction to the LLM, not a new automatic classifier in the scripts.
+A successful numeric check does not verify expression scale; do not claim it does.
 
 ## Portable entrypoints
 
@@ -41,16 +63,18 @@ use `--full` on `validate` or `run` to scan all values. Do not repeatedly rescan
 large unchanged export without a reason. `status` reports saved state, not live
 process health. Use the host job runner for lifecycle management.
 
-For h5ad, resolve `scripts/prepare_h5ad.py` and explicitly select `X`, `raw.X` or
-`layers/NAME` and the gene-symbol column. The native TSV header has **cell IDs
-only**, with no leading tab or gene-column label. This differs from ordinary
-pandas `to_csv` output. See the input reference before exporting.
+For h5ad, resolve `scripts/prepare_h5ad.py` and explicitly pass the source you
+selected (`X`, `raw.X` or `layers/NAME`) and its gene-symbol column. If preparation
+required a transformation, export your prepared artifact, not the original logged
+slot. The native TSV header has **cell IDs only**, with no leading tab or
+gene-column label. This differs from ordinary pandas `to_csv` output.
 
 Completion requires the actual result table, exact cell-ID/order alignment and
 missing-value diagnostics, not just exit code zero. Existing output directories
-are never overwritten. No plots or modified h5ad are produced automatically.
+are never overwritten. No plots or modified h5ad are produced automatically by
+the runner; agent-created preparation artifacts are separate and must be recorded.
 
 ## References on demand
 
-- [Requests, input format and outputs](references/inputs-and-results.md)
+- [Input assessment, requests, input format and outputs](references/inputs-and-results.md)
 - [Runtime, scaling, interpretation and plotting](references/runtime-and-interpretation.md)
